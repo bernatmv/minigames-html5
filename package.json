@@ -2,7 +2,7 @@
   "name": "minigames-html5",
   "version": "1.0.0",
   "private": true,
-  "description": "Node + express + babel6 + tape + Rx + phaser + ramda + socket.io",
+  "description": "Node + babel + Rx + phaser + ramda + socket.io",
   "scripts": {
     "build": "node_modules/.bin/webpack -p --progress --profile --optimize-minimize --optimize-occurence-order --optimize-dedupe",
     "build-babel": "./node_modules/.bin/babel -d ./dist ./src"
