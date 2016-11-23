@@ -1,0 +1,49 @@
+{
+  "name": "minigames-html5",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Node + express + babel6 + tape + Rx + phaser + ramda + socket.io",
+  "scripts": {
+    "build": "node_modules/.bin/webpack -p --progress --profile --optimize-minimize --optimize-occurence-order --optimize-dedupe",
+    "build-babel": "./node_modules/.bin/babel -d ./dist ./src"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist/*",
+    "README.md"
+  ],
+  "devDependencies": {
+    "audiosprite": "0.6.0",
+    "babel": "6.5.2",
+    "babel-core": "6.18.2",
+    "babel-eslint": "7.1.1",
+    "babel-loader": "6.2.8",
+    "babel-plugin-ramda": "^1.1.6",
+    "babel-polyfill": "6.16.0",
+    "babel-preset-es2015": "6.5.0",
+    "babel-preset-stage-0": "6.5.0",
+    "clear": "0.0.1",
+    "css-loader": "0.26.0",
+    "exports-loader": "0.6.3",
+    "file-loader": "0.9.0",
+    "html-webpack-plugin": "2.24.1",
+    "image-webpack-loader": "3.0.0",
+    "imports-loader": "0.6.5",
+    "json-loader": "0.5.4",
+    "less": "2.7.1",
+    "less-loader": "2.2.3",
+    "minimist": "1.2.0",
+    "phaser-debug": "1.1.8",
+    "ramda-loader": "0.4.1",
+    "script-loader": "0.6.1",
+    "style-loader": "0.13.0",
+    "url-loader": "0.5.7",
+    "webpack-dev-server": "1.16.2"
+  },
+  "dependencies": {
+    "httpplease": "0.16.4",
+    "phaser": "2.6.2",
+    "rxjs": "5.0.0-rc.4",
+    "webpack": "1.13.3"
+  }
+}
