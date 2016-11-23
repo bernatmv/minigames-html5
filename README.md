@@ -1,3 +1,3 @@
 ## Features
 
-Node + express + babel + tape + Rx + phaser + ramda + socket.io
+Node + babel + Rx + phaser + ramda + socket.io
