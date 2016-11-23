@@ -3,3 +3,5 @@ node_modules
 client/dist
 client/npm-debug.log
 client/yarn-error.log
+server/npm-debug.log
+server/yarn-error.log
