@@ -14,7 +14,7 @@ var plugins = [
 ];
 
 if (fs.existsSync('./src/index.js')) {
-    entries['./src/'] = './index.js';
+    entries['src'] = './index.js';
     plugins.push(new HtmlWebpackPlugin({
         title: 'PLACEHOLDER GAME TITLE',
         filename: './index.html',
@@ -30,7 +30,7 @@ module.exports = {
 	output: {
 		path: path.join(__dirname, 'dist'),
 		publicPath: '',
-		filename: 'app.js'
+		filename: 'js/app.js'
 	},
 	module: {
 		loaders: [{
