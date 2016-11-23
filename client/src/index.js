@@ -6,7 +6,7 @@ console.log(io);
 function play() {
     console.log('play');
 
-    const janken_endpoint = 'http://localhost';
+    const janken_endpoint = 'http://localhost:9000';
 
     const socket = io.connect(janken_endpoint);
     socket.on('connect', () => {
