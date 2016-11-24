@@ -3,10 +3,15 @@ var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
+var phaserModule = path.join(__dirname, '/node_modules/phaser/')
+var phaser = path.join(phaserModule, 'build/custom/phaser-split.js')
+var pixi = path.join(phaserModule, 'build/custom/pixi.js')
+var p2 = path.join(phaserModule, 'build/custom/p2.js')
+
 var entries = {
-	'vendor': [
-		'phaser'
-	]
+	'main': [
+		'pixi', 'p2', 'phaser', './index.js'
+	],
 };
 
 var plugins = [
@@ -14,7 +19,6 @@ var plugins = [
 ];
 
 if (fs.existsSync('./src/index.js')) {
-    entries['src'] = './index.js';
     plugins.push(new HtmlWebpackPlugin({
         title: 'PLACEHOLDER GAME TITLE',
         filename: './index.html',
@@ -34,13 +38,16 @@ module.exports = {
 	},
 	module: {
 		loaders: [{
-			test: /\.js$/i,
-			exclude: /node_modules/i,
-			loader: 'babel?presets[]=es2015,presets[]=stage-0'
-		}, {
-			test: /(phaser(-arcade-physics)?|phaser-debug)(\.min)?\.js$/i,
-			loader: 'script'
-		}, {
+			test: /\.js$/,
+			 exclude: /(node_modules|bower_components)/,
+			 loader: 'babel-loader',
+			 query: {
+			   presets: ['es2015']
+			 }
+		},
+        { test: /pixi\.js/, loader: 'expose?PIXI' },
+        { test: /phaser-split\.js$/, loader: 'expose?Phaser' },
+        { test: /p2\.js/, loader: 'expose?p2' }, {
 			test: /\.json$/i,
 			exclude: /\.audiosprite\.json$/i,
 			loader: 'json'
@@ -68,11 +75,12 @@ module.exports = {
 		}]
 	},
 	resolve: {
-		alias: {
-			'phaser': path.join(__dirname, 'node_modules/phaser/build/phaser.min.js'),
-			'phaser-debug': path.join(__dirname, 'node_modules/phaser-debug/dist/phaser-debug.js')
-		},
-		extensions: ['', '.js']
+		extensions: ['', '.js'],
+        alias: {
+     'phaser': phaser,
+     'pixi': pixi,
+     'p2': p2
+   }
 	},
 	plugins: plugins
 };

@@ -1,13 +1,9 @@
-console.log(1);
 import io from 'socket.io-client';
-console.log(2);
-console.log(io);
+import { Game } from 'phaser';
+console.log(PIXI, Phaser, Game);
 
 function play() {
-    console.log('play');
-
     const janken_endpoint = 'http://localhost:9000';
-
     const socket = io.connect(janken_endpoint);
     socket.on('connect', () => {
         console.log("connected");
@@ -28,8 +24,5 @@ function play() {
 }
 
 window.onload = () => {
-    console.log('window.onload');
     play();
 };
-
-console.log('EOF');
