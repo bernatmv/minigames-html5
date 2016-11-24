@@ -18,12 +18,13 @@ function play() {
         socket.close();
     });
 
-    socket.on('message', (data) => console.log(data));
+    socket.on('event', (data) => console.log(data));
 
     socket.on('disconnect', () => {
         console.log("disconnected");
         socket.close();
     });
+    socket.emit('command', {hello: 'world'})
 }
 
 window.onload = () => {
