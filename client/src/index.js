@@ -7,7 +7,6 @@ function play() {
     const socket = io.connect(janken_endpoint);
     socket.on('connect', () => {
         console.log("connected");
-        socket.close();
     });
     socket.on('connect_failed', () => {
         console.log("connect_failed");
