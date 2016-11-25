@@ -1,27 +1,21 @@
 import io from 'socket.io-client';
-import { Game } from 'phaser';
-console.log(PIXI, Phaser, Game);
+import * as Rx from 'rx';
+import { Phaser } from 'phaser';
 
-function play() {
-    const janken_endpoint = 'http://localhost:9000';
-    const socket = io.connect(janken_endpoint);
-    socket.on('connect', () => {
-        console.log("connected");
-    });
-    socket.on('connect_failed', () => {
-        console.log("connect_failed");
-        socket.close();
-    });
+import connectToServer from './js/connectToServer';
+import monitorConnection from './js/monitorConnection';
+import createGame from './js/createGame';
+import gameLogic from './js/gameLogic';
 
-    socket.on('event', (data) => console.log(data));
-
-    socket.on('disconnect', () => {
-        console.log("disconnected");
-        socket.close();
-    });
-    socket.emit('command', {hello: 'world'})
-}
+console.log(PIXI, Phaser, Game, Rx);
 
 window.onload = () => {
-    play();
+    // CONNECT TO SERVER
+    const source = connectToServer();
+    // MONITOR CONNECTION
+    monitorConnection(source);
+    // START GAME LOGIC
+    gameLogic(source);
+    // CREATE GAME CANVAS
+    createGame();
 };
