@@ -1,8 +1,8 @@
 import { Phaser } from 'phaser';
 
-export default function createGame() {
+export default function createGame(api) {
     const game = new Phaser.Game(750, 1334, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-
+    const {eventStream, connectionStream, sendCommand} = api;
     function preload() {
     }
 
@@ -13,5 +13,5 @@ export default function createGame() {
     }
 
     function update() {
-    }    
+    }
 }
