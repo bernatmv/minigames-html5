@@ -1,0 +1,14 @@
+version: '2'
+services:
+  web:
+    image: jaken/server
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 80:9000
+    depends_on:
+      - redis
+    links:
+      - redis
+  redis:
+    image: redis:alpine
