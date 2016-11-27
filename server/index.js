@@ -20,17 +20,17 @@ io.on('connection', function (socket) {
   console.log('connected');
   let count = 0;
 
-  socket.on('command', function (data) {
-    console.log('event', data);
-    socket.emit('event', { data: data, iteration: count });
+  socket.on('gameStart', function (data) {
+    console.log('intervalChanged', data);
+    socket.emit('intervalChanged', { payload: data, iteration: count });
 
     const interval = setInterval(function() {
       if (count > 100) {
         clearInterval(interval);
       }
       count++;
-      console.log('interval event', data);
-      socket.emit('event', { data: data, iteration: count });
+      console.log('intervalChanged event', data);
+      socket.emit('intervalChanged', { payload: data, iteration: count });
     }, 1000);
   });
 });

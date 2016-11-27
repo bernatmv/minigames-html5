@@ -1,21 +1,19 @@
 import io from 'socket.io-client';
 import * as Rx from 'rx';
-import { Phaser } from 'phaser';
+import { pipe } from 'lodash/fp';
 
-import connectToServer from './js/connectToServer';
-import monitorConnection from './js/monitorConnection';
 import createGame from './js/createGame';
-import gameLogic from './js/gameLogic';
+import {getSocket, getApi} from './js/serverProxy';
+import { startGame } from './js/actions';
 
-console.log(PIXI, Phaser, Game, Rx);
+const api = pipe(getSocket, getApi);
+// CONNECT TO SERVER
+const server = api();
 
 window.onload = () => {
-    // CONNECT TO SERVER
-    const source = connectToServer();
-    // MONITOR CONNECTION
-    monitorConnection(source);
-    // START GAME LOGIC
-    gameLogic(source);
+    server.eventStream.subscribe(console.log);
+    server.connectionStream.subscribe(console.log);
+    server.sendCommand(startGame('Ab', 'uuid'))
     // CREATE GAME CANVAS
-    createGame();
+    createGame(server);
 };

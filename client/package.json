@@ -45,6 +45,7 @@
     "event-emitter": "0.3.4",
     "expose-loader": "^0.7.1",
     "httpplease": "0.16.4",
+    "lodash": "^4.17.2",
     "phaser": "2.6.2",
     "rx": "4.1.0",
     "script-loader": "^0.6.1",
