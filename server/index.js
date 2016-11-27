@@ -1,15 +1,18 @@
 const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
+const redis = require('socket.io-redis');
 
 const app = express();
 const server = app.listen(9000);
 const io = socketio.listen(server);
-
+io.adapter(redis({ host: 'redis', port: 6379 }));
 console.log('listening to port 9000');
 
-app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/index.html');
+app.use(express.static('public'));
+
+app.get('/api/up', function (req, res) {
+  res.json({up:true});
 });
 
 

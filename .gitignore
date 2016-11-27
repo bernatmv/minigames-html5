@@ -5,3 +5,5 @@ client/npm-debug.log
 client/yarn-error.log
 server/npm-debug.log
 server/yarn-error.log
+server/public/index.html
+server/public/js
