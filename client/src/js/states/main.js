@@ -1,11 +1,15 @@
 import { State } from 'phaser';
 
 class Main extends State {
+    
     preload() {
         // connect with FB
     }
+
     create() {
-        this.game.add.text(32, 32, 'jajaken', { fill: '#ffffff' });
+        const title = this.game.add.text(this.game.world.centerX, this.game.world.centerY, 'janken', { fill: '#ffffff' });
+		title.anchor.x = .5;
+		title.anchor.y = .5;
 	}
 };
 
