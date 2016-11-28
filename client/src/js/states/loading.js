@@ -39,7 +39,8 @@ class Loading extends Phaser.State {
         this.game.load.onPackComplete.add(loadCheck);
         this.game.load.onLoadComplete.add(() => {
             preloadBar.text = this.game.load.progress + '%';
-            this.game.state.start('main');
+            //TODO REMOVE
+            setTimeout(()=>this.game.state.start('main'), 1000);
         }, this);
     }
 
