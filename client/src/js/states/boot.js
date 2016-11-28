@@ -1,16 +1,22 @@
 import { State } from 'Phaser';
 import Main from './main';
 import Loading from './loading';
+import Properties from '../config/properties';
+import {
+    gradients, addGradient
+} from '../common/background';
 
 class Boot extends State {
-    preload() {
-        //load basic info
-        //this.game.load.image("loadingBackground", require("../assets/shared/loading-background.png"));
+
+    preload() {        
+            this.game.load.image("companyLogo", require("../../assets/logos/logo_300x200.png"));            
+    		this.game.stage.disableVisibilityChange = true;
             this.game.state.add('loading', Loading);
             this.game.state.add('main', Main);
     }
+
     create() {
-        this.game.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
+        // this.game.scale.windowConstraints.bottom = "visual";
         this.game.scale.pageAlignVertically = true;
         this.game.scale.pageAlignHorizontally = true;
         this.game.stage.disableVisibilityChange = true;
@@ -18,7 +24,7 @@ class Boot extends State {
         if (Phaser.Plugin.Debug){
             this.game.add.plugin(Phaser.Plugin.Debug);
         }
-        this.game.stage.backgroundColor = '#182d3b';
+        addGradient(this.game);
         this.game.state.start('loading');
 	}
 };
