@@ -1,5 +1,5 @@
 select magic
-make work path
+// make work path
 scale: 150% (binded)
 rotate: whatever's needed
 make selection
