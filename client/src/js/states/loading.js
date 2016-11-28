@@ -35,18 +35,17 @@ class Loading extends Phaser.State {
         this.game.load.image("rules_rock_papaer_scissors_lizard_spock", require("../../assets/rules/rock_papaer_scissors_lizard_spock.jpg"));
 
         const loadCheck = () => {
-			if (this.game.load.hasLoaded) {
-				this.game.load.onLoadComplete.remove(loadCheck, this);
-				this.game.state.start('main');
-			}
-		};
-
-        this.game.load.onFileComplete.add(() => this.loadUpdate());
-		this.game.load.onPackComplete.add(() => this.loadUpdate());
-		this.game.load.onLoadComplete.add(() => {
             preloadBar.text = this.game.load.progress + '%';
+        };
+
+        this.game.load.onFileComplete.add(loadCheck);
+        this.game.load.onPackComplete.add(loadCheck);
+        this.game.load.onLoadComplete.add(() => {
+            preloadBar.text = this.game.load.progress + '%';
+            this.game.state.start('main');
         }, this);
     }
+
 };
 
 export default Loading;
