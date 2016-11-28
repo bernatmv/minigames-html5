@@ -13,7 +13,7 @@ const server = api();
 window.onload = () => {
     server.eventStream.subscribe(console.log);
     server.connectionStream.subscribe(console.log);
-    server.sendCommand(startGame('Ab', 'uuid'))
+    server.sendCommand({type: 'gameStart'})
     // CREATE GAME CANVAS
     createGame(server);
 };

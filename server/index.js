@@ -6,7 +6,9 @@ const redis = require('socket.io-redis');
 const app = express();
 const server = app.listen(9000);
 const io = socketio.listen(server);
-io.adapter(redis({ host: 'redis', port: 6379 }));
+if (process.env.NODE_ENV === 'production') {
+    io.adapter(redis({ host: 'redis', port: 6379 }));
+}
 console.log('listening to port 9000');
 
 app.use(express.static('public'));
@@ -21,7 +23,20 @@ io.on('connection', function (socket) {
   let count = 0;
 
   socket.on('gameStart', function (data) {
-    console.log('intervalChanged', data);
+     console.log('gameStart');
+     socket.emit('gameStarted', {gameId: 'gameStarted'});
+  });
+  socket.on('joinGame', function (data) {
+      console.log('gameJoin');
+      socket.emit('roundStarted', {gameId: 'gameStarted', round:1})
+  });
+  socket.on('play', function (data) {
+      console.log('play');
+      socket.emit('gameFinished', {gameId: 'gameStarted', round:1, win: true})
+  });
+
+  socket.on('gameStart', function (data) {
+
     socket.emit('intervalChanged', { payload: data, iteration: count });
 
     const interval = setInterval(function() {
@@ -29,7 +44,6 @@ io.on('connection', function (socket) {
         clearInterval(interval);
       }
       count++;
-      console.log('intervalChanged event', data);
       socket.emit('intervalChanged', { payload: data, iteration: count });
     }, 1000);
   });
