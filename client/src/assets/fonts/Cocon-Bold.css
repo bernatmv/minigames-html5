@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Cocon-Bold';
+  src: url('Cocon-Bold.eot');
+  src: url('Cocon-Bold.woff2') format('woff2'),
+       url('Cocon-Bold.woff') format('woff'),
+       url('Cocon-Bold.ttf') format('truetype'),
+       url('Cocon-Bold.svg#Cocon-Bold') format('svg'),
+       url('Cocon-Bold.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+

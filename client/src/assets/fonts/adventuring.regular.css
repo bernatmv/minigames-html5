@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Adventuring';
+  src: url('Adventuring.woff') format('woff'),
+       url('Adventuring.ttf') format('truetype'),
+       url('Adventuring.svg#Adventuring') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'adventuring.regular';
+  src: url('adventuring.regular.eot');
+  src: url('adventuring.regular.woff2') format('woff2'),
+       url('adventuring.regular.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+

@@ -25,6 +25,22 @@ export const gradients =
         { position: 0, color: "#BA5370" },
         { position: 1, color: "#F4E2D8" }
     ],
+    [   // Inbox
+        { position: 0, color: "#457fca" },
+        { position: 1, color: "#5691c8" }
+    ],
+    [   // Little Leaf
+        { position: 0, color: "#76b852" },
+        { position: 1, color: "#8DC26F" }
+    ],
+    [   // Master Card
+        { position: 0, color: "#f46b45" },
+        { position: 1, color: "#eea849" }
+    ],
+    [   // Mystic
+        { position: 0, color: "#757F9A" },
+        { position: 1, color: "#D7DDE8" }
+    ],
     [   // Mild
         { position: 0, color: "#67B26F" },
         { position: 1, color: "#4ca2cd" }

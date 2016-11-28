@@ -1,0 +1,12 @@
+select magic
+make work path
+scale: 150% (binded)
+rotate: whatever's needed
+make selection
+fill selection
+color fill: F7CEB5
+blend > stroke: __ px
+blend > color stroke: AA846C
+
+light inside?
+shadow outside?

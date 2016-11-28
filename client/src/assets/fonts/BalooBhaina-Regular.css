@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'BalooBhaina-Regular';
+  src: url('BalooBhaina-Regular.woff') format('woff'),
+       url('BalooBhaina-Regular.ttf') format('truetype'),
+       url('BalooBhaina-Regular.svg#BalooBhaina-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'baloo.bhaina.regular';
+  src: url('baloo.bhaina.regular.eot');
+  src: url('baloo.bhaina.regular.woff2') format('woff2'),
+       url('baloo.bhaina.regular.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
