@@ -10,21 +10,21 @@ class Loading extends Phaser.State {
         // font style
         const style = {
             font: "24px Cocon-Bold",
-			fill: "#fff",
+            fill: "#fff",
             stroke: "#000",
             strokeThickness: 6
-		};
+        };
         // background
         addGradient(this.game);
         // logo
         const companyLogo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY - 250, "companyLogo", this);
-		companyLogo.anchor.x = .5;
-		companyLogo.anchor.y = .5;
+        companyLogo.anchor.x = .5;
+        companyLogo.anchor.y = .5;
         // text
         const loadingText = this.game.add.text(this.game.width / 2, (this.game.height / 2) - 50, `Loading, please be patient...`, style);
-		loadingText.anchor.setTo(0.5, 0.5);
-		const preloadBar = this.game.add.text(this.game.width / 2, (this.game.height / 2) + 50, '0%', style);
-		preloadBar.anchor.setTo(0.5, 0.5);
+        loadingText.anchor.setTo(0.5, 0.5);
+        const preloadBar = this.game.add.text(this.game.width / 2, (this.game.height / 2) + 50, '0%', style);
+        preloadBar.anchor.setTo(0.5, 0.5);
         // load images
         this.game.load.image("rock", require("../../assets/hands/rock.png"));
         this.game.load.image("paper", require("../../assets/hands/paper.png"));
