@@ -12,8 +12,6 @@ const api = pipe(getSocket, getApi);
 const server = api();
 
 window.onload = () => {
-    server.eventStream.subscribe(console.log);
-    server.connectionStream.subscribe(console.log);
     server.sendCommand({type: 'gameStart'})
     // CREATE GAME CANVAS
     createGame(server);
