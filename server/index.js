@@ -6,9 +6,11 @@ const redis = require('socket.io-redis');
 const app = express();
 const server = app.listen(9000);
 const io = socketio.listen(server);
+
 if (process.env.NODE_ENV === 'production') {
     io.adapter(redis({ host: 'redis', port: 6379 }));
 }
+
 console.log('listening to port 9000');
 
 app.use(express.static('public'));

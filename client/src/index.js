@@ -6,6 +6,8 @@ import createGame from './js/createGame';
 import {getSocket, getApi} from './js/serverProxy';
 import { startGame } from './js/actions';
 
+require('./css/main.css');
+
 const api = pipe(getSocket, getApi);
 // CONNECT TO SERVER
 const server = api();

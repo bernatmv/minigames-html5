@@ -27,8 +27,11 @@ class Main extends State {
         const title = this.game.add.text(this.game.world.centerX, this.game.world.centerY, 'Janken!', style);
         title.anchor.x = .5;
         title.anchor.y = .5;
-        //const blinkTween = blinkTween(this.game, title);
 
+        console.debug('===============================');
+        const blinkTween = blinkTween(this.game, title);
+        console.debug('+++++++++++++++++++++++++++++++');
+        console.debug(blinkTween);
 
         //solve blurry pixels
         this.game.renderer.renderSession.roundPixels = true;
