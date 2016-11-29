@@ -1,5 +1,4 @@
 import io from 'socket.io-client';
-import * as Rx from 'rx';
 import { pipe } from 'lodash/fp';
 
 import createGame from './js/createGame';

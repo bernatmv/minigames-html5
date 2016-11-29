@@ -3,10 +3,11 @@ var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var phaserModule = path.join(__dirname, '/node_modules/phaser/')
-var phaser = path.join(phaserModule, 'build/custom/phaser-split.js')
-var pixi = path.join(phaserModule, 'build/custom/pixi.js')
-var p2 = path.join(phaserModule, 'build/custom/p2.js')
+var phaserModule = path.join(__dirname, '/node_modules/phaser/');
+var phaser = path.join(phaserModule, 'build/custom/phaser-split.js');
+var pixi = path.join(phaserModule, 'build/custom/pixi.js');
+var p2 = path.join(phaserModule, 'build/custom/p2.js');
+
 
 var entries = {
 	'main': [
@@ -78,10 +79,11 @@ module.exports = {
 	resolve: {
 		extensions: ['', '.js'],
         alias: {
-     'phaser': phaser,
-     'pixi': pixi,
-     'p2': p2
-   }
+            'phaser': phaser,
+            'Phaser': phaser,
+            'pixi': pixi,
+            'p2': p2,
+         }
 	},
 	plugins: plugins
 };
