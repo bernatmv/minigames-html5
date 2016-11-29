@@ -7,14 +7,13 @@ canvas {
 }
 
 @font-face {
-  font-family: 'Cocon-Bold';
-  src: url('../assets/fonts/Cocon-Bold.eot');
-  src: url('../assets/fonts/Cocon-Bold.woff2') format('woff2'),
-       url('../assets/fonts/Cocon-Bold.woff') format('woff'),
-       url('../assets/fonts/Cocon-Bold.ttf') format('truetype'),
-       url('../assets/fonts/Cocon-Bold.svg#Cocon-Bold') format('svg'),
-       url('../assets/fonts/Cocon-Bold.eot?#iefix') format('embedded-opentype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'Cocon-Bold';
+    src: url('../assets/fonts/Cocon-Bold.eot');
+    src: url('../assets/fonts/Cocon-Bold.woff2') format('woff2'),
+        url('../assets/fonts/Cocon-Bold.woff') format('woff'),
+        url('../assets/fonts/Cocon-Bold.ttf') format('truetype'),
+        url('../assets/fonts/Cocon-Bold.svg#Cocon-Bold') format('svg'),
+        url('../assets/fonts/Cocon-Bold.eot?#iefix') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
 }
-
