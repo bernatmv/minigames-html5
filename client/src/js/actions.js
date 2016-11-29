@@ -1,3 +1,12 @@
+export const joinGame = (gameId, name, id) => ({
+    type: 'joinGame',
+    payload: {
+        gameId,
+        name,
+        fbid: id
+    }
+});
+
 export const startGame = (name, id) => ({
     type: 'startGame',
     payload: {
@@ -6,10 +15,11 @@ export const startGame = (name, id) => ({
     }
 });
 
-export const play = (gameId, handSimbol) => ({
-    type: 'startGame',
+export const play = (gameId, id, hand) => ({
+    type: 'play',
     payload: {
         gameId,
-        handSimbol
+        fbid: id,
+        hand
     }
 });
