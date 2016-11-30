@@ -36,17 +36,4 @@ io.on('connection', function (socket) {
       console.log('play');
       socket.emit('gameFinished', {gameId: 'gameStarted', round:1, win: true})
   });
-
-  socket.on('gameStart', function (data) {
-
-    socket.emit('intervalChanged', { payload: data, iteration: count });
-
-    const interval = setInterval(function() {
-      if (count > 100) {
-        clearInterval(interval);
-      }
-      count++;
-      socket.emit('intervalChanged', { payload: data, iteration: count });
-    }, 1000);
-  });
 });

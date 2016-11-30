@@ -31,6 +31,7 @@ class Loading extends Phaser.State {
         this.game.load.image("scissors", require("../../assets/hands/scissors.png"));
         this.game.load.image("lizard", require("../../assets/hands/lizard.png"));
         this.game.load.image("spock", require("../../assets/hands/spock.png"));
+        this.game.load.image("connection", require("../../assets/icons/net.png"));
         this.game.load.image("rules_rock_paper_scissors", require("../../assets/rules/rock-paper-scissors.png"));
         this.game.load.image("rules_rock_papaer_scissors_lizard_spock", require("../../assets/rules/rock_papaer_scissors_lizard_spock.jpg"));
 
