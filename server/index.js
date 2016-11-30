@@ -5,7 +5,7 @@ const redis = require('socket.io-redis');
 const uuid = require('node-uuid');
 
 const app = express();
-const server = app.listen(9000);
+const server = app.listen(9999);
 const io = socketio.listen(server);
 const games = {};
 
@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'production') {
     io.adapter(redis({ host: 'redis', port: 6379 }));
 }
 
-console.log('listening to port 9000');
+console.log('listening to port 9999');
 
 app.use(express.static('public'));
 app.use(function(req, res, next) {
@@ -30,19 +30,19 @@ io.on('connection', function (socket) {
   console.log('connected');
   let count = 0;
 
-  socket.on('gameStart', function (data) {
-     console.log('gameStart');
+  socket.on('startGame', function (data) {
+     console.log('startGame');
      const gameId = uuid.v1();
+     console.log(data, socket.id);
      games[gameId] = {
          rounds: data.rounds || 3,
          owner: {
              id: data.fbid,
-             socketId: data.socketId
+             socketId: socket.id
          },
          rodunds:{}
      };
-     console.log(data);
-     socket.connected[data.socketId].emit('gameStarted', {gameId});
+     io.sockets.connected[socket.id].emit('gameStarted', {gameId});
   });
   socket.on('joinGame', function (data) {
       const game = games[data.gameId];
