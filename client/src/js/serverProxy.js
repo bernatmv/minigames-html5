@@ -17,6 +17,7 @@ const connectionStream = (socket) =>{
 const eventStream = (socket) => {
     const source = new Subject();
     socket.on('gameStarted', data => source.onNext({type: 'gameStarted', data}));
+    socket.on('gameJoined', data => source.onNext({type: 'gameJoined', data}));
     socket.on('roundStarted', data => source.onNext({type: 'roundStarted', data}));
     socket.on('gameFinished', data => source.onNext({type: 'gameFinished', data}));
     socket.on('roundFinished', data => source.onNext({type: 'roundFinished', data}));
@@ -26,7 +27,10 @@ const eventStream = (socket) => {
 
 export const getApi = (socket) => {
   return {
-      sendCommand: (command) => socket.emit(command.type, command.payload),
+      sendCommand: (command) => {
+          const payload = Object.assign({}, command.payload, {socketId: socket.id});
+          socket.emit(command.type, payload)
+      },
       connectionStream: connectionStream(socket),
       eventStream: eventStream(socket)
   };
