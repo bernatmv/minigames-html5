@@ -1,10 +1,10 @@
 import io from 'socket.io-client';
-import * as Rx from 'rx';
+import { Subject } from 'rx-lite';
 
 export const getSocket = (url = 'http://localhost:9000') => io.connect(url);
 
 const connectionStream = (socket) =>{
-    const source = new Rx.Subject();
+    const source = new Subject();
     socket.on('connect', () => source.onNext({status: 'connected'}));
     socket.on('reconnecting', () => source.onNext({status: 'connecting'}));
     socket.on('connect_error', () => source.onNext({status: 'disconected'}));
@@ -15,7 +15,7 @@ const connectionStream = (socket) =>{
 };
 
 const eventStream = (socket) => {
-    const source = new Rx.Subject();
+    const source = new Subject();
     socket.on('gameStarted', data => source.onNext({type: 'gameStarted', data}));
     socket.on('roundStarted', data => source.onNext({type: 'roundStarted', data}));
     socket.on('gameFinished', data => source.onNext({type: 'gameFinished', data}));
