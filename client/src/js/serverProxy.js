@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { Subject } from 'rx-lite';
 
-export const getSocket = (url = 'http://localhost:9000') => io.connect(url);
+export const getSocket = (url = 'http://localhost:9999') => io.connect(url);
 
 const connectionStream = (socket) =>{
     const source = new Subject();
@@ -17,6 +17,7 @@ const connectionStream = (socket) =>{
 const eventStream = (socket) => {
     const source = new Subject();
     socket.on('gameStarted', data => source.onNext({type: 'gameStarted', data}));
+    socket.on('gameJoined', data => source.onNext({type: 'gameJoined', data}));
     socket.on('roundStarted', data => source.onNext({type: 'roundStarted', data}));
     socket.on('gameFinished', data => source.onNext({type: 'gameFinished', data}));
     socket.on('roundFinished', data => source.onNext({type: 'roundFinished', data}));
