@@ -47,12 +47,16 @@ export const gradients =
     ]
 ];
 
+export function getRandomGradient() {
+    return gradients[random(0, gradients.length - 1)]; 
+}
+
 export function addGradient(
     game, 
-    width = Properties.screen.resolution.width, 
-    height = Properties.screen.resolution.height, 
+    gradient = null,
     orientation = 'vertical', 
-    gradient = null
+    width = Properties.screen.resolution.width, 
+    height = Properties.screen.resolution.height 
 ) {
     const bgGradient = gradient || gradients[random(0, gradients.length - 1)]; 
     const coordinates = (orientation === 'vertical') ? [0,0,0,height] : [0,0,width,0];
@@ -60,7 +64,7 @@ export function addGradient(
     const myBitmap = game.add.bitmapData(width, height);
     const grd = myBitmap.context.createLinearGradient(...coordinates);
 
-    bgGradient.map((gradientStep) => grd.addColorStop(gradientStep.position,gradientStep.color));
+    bgGradient.map((gradientStep) => grd.addColorStop(gradientStep.position, gradientStep.color));
 
     myBitmap.context.fillStyle = grd;
     myBitmap.context.fillRect(0,0,width,height);
