@@ -1,6 +1,7 @@
 import {Phaser} from 'phaser';
 
 export default function labelButton(game, x, y, key, label, labelStyle, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
+    debugger;
     Phaser.Button.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
     this.style = labelStyle;
     this.anchor.setTo(0.5, 0.5);
