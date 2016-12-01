@@ -7,6 +7,8 @@ import {
 class Loading extends Phaser.State {
 
     preload() {
+        //solve blurry pixels
+        this.game.renderer.renderSession.roundPixels = true;        
         // font style
         const style = {
             font: "24px Cocon-Bold",
@@ -15,9 +17,9 @@ class Loading extends Phaser.State {
             strokeThickness: 6
         };
         // background
-        addGradient(this.game);
+        addGradient(this.game, Properties.screen.backgroundGradient);
         // logo
-        const companyLogo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY - 250, "companyLogo", this);
+        const companyLogo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY - 200, "companyLogo", this);
         companyLogo.anchor.x = .5;
         companyLogo.anchor.y = .5;
         // text
@@ -29,12 +31,17 @@ class Loading extends Phaser.State {
         this.game.load.image("rock", require("../../assets/hands/rock.png"));
         this.game.load.image("paper", require("../../assets/hands/paper.png"));
         this.game.load.image("scissors", require("../../assets/hands/scissors.png"));
-        this.game.load.image("lizard", require("../../assets/hands/lizard.png"));
-        this.game.load.image("spock", require("../../assets/hands/spock.png"));
-        this.game.load.image("connection", require("../../assets/icons/net.png"));
-        this.game.load.image("rules_rock_paper_scissors", require("../../assets/rules/rock-paper-scissors.png"));
-        this.game.load.image("rules_rock_papaer_scissors_lizard_spock", require("../../assets/rules/rock_papaer_scissors_lizard_spock.jpg"));
-
+        this.game.load.image("connection", require("../../assets/icons/connection_status.png"));
+        this.game.load.spritesheet("button-blue", require("../../assets/buttons/circle/BlueButton.png"), 400, 400);
+        this.game.load.image("button-greeen", require("../../assets/buttons/circle/GreenButton.png"));
+        this.game.load.image("button-grey", require("../../assets/buttons/circle/GreyButton.png"));
+        this.game.load.image("button-pink", require("../../assets/buttons/circle/PinkButton.png"));
+        this.game.load.image("button-purple", require("../../assets/buttons/circle/PurpleButton.png"));
+        this.game.load.image("button-purple-light", require("../../assets/buttons/circle/PurpleLightButton.png"));
+        this.game.load.image("button-rose", require("../../assets/buttons/circle/RoseButton.png"));
+        this.game.load.image("button-turquoise", require("../../assets/buttons/circle/TurquoiseButton.png"));
+        this.game.load.image("button-yellow", require("../../assets/buttons/circle/YellowButton.png"));
+        
         const loadCheck = () => {
             preloadBar.text = this.game.load.progress + '%';
         };
