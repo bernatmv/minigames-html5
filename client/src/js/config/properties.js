@@ -4,10 +4,10 @@ import random from '../common/random';
 const properties = {
     screen: {
         resolution: {
-//            width: 750,
-//            height: 1334
-            width: parseInt(750 / 2),
-            height: parseInt(1334 / 2)
+            width: 750,
+            height: 1334
+//            width: parseInt(750 / 2),
+//            height: parseInt(1334 / 2)
         },
         backgroundGradient: getRandomGradient()
     }, 

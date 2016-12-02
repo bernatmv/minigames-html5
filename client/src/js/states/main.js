@@ -6,6 +6,7 @@ import { State } from 'phaser';
 import { startGame, play, joinGame } from '../actions';
 import { blinkTween } from '../common/animations';
 import { gradients, addGradient } from '../common/background';
+import Button from '../common/button';
 
 class Main extends State {
 
@@ -20,15 +21,16 @@ class Main extends State {
   initialize() {
     //solve blurry pixels
     this.game.renderer.renderSession.roundPixels = true;
-    return this.fakeGame()
-      .initializeText()
+    return this
+      .initializeStage()
+      .fakeGame()
       .initializeConnectionImages()
       .initializeConnectionStream()
       .initializeEventStream()
       .startGame();
   }
 
-  initializeText() {
+  initializeStage() {
     // font style
     const style = {
       fill: "#fff",
@@ -105,6 +107,18 @@ class Main extends State {
     const { connectionStream } = this.game.api;
     monitorConnectionStream(connectionStream, this.connectionStatus);
     return this;
+  }
+
+  createHandsButtons() {
+      const playCommand = (hand) => {
+          sendCommand(play(gameId, userBe, hand));
+      };
+      const onPlayRock = () => playCommand('rock');
+      const onPlayPaper = () => playCommand('paper');
+      const onPlayScissors = () => playCommand('scissors');
+      this.game.add.button(this.game.world.centerX - 100, Properties.screen.resolution.height - 100, 'playRock', onPlayRock, this);
+      this.game.add.button(this.game.world.centerX, Properties.screen.resolution.height - 100, 'playPaper', onPlayPaper, this);
+      this.game.add.button(this.game.world.centerX + 100, Properties.screen.resolution.height - 100, 'playScissors', onPlayScissors, this);
   }
 };
 
