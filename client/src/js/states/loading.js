@@ -35,6 +35,7 @@ class Loading extends Phaser.State {
         this.game.load.image("scissors", require("../../assets/hands/scissors.png"));
         this.game.load.image("connection", require("../../assets/icons/connection_status.png"));
         this.game.load.atlas("buttons", require("../../assets/buttons/circle/sprites.png"), null, buttonsJSON, Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+        this.game.load.image("box-blue", require("../../assets/buttons/square/BoxBlue.png"));
         
         const loadCheck = () => {
             preloadBar.text = this.game.load.progress + '%';
