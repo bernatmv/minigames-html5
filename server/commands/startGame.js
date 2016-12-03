@@ -8,12 +8,14 @@ const startGame = (io, socket, games) => socket.on('startGame', function(data) {
     }
     const gameId = uuid.v1();
     const game = {
-        numberOfRounds: data.rounds || 3,
+        id: gameId,
+        numberOfWins: data.numberOfWins || 2,
         owner: {
             id: data.fbid,
-            socketId: socket.id
+            socketId: socket.id,
+            wins: 0
         },
-        rodunds: {}
+        rounds: {}
     };
     games[gameId] = game;
     io.to(socket.id).emit('gameStarted', {

@@ -1,5 +1,4 @@
 import Properties from '../config/properties';
-import labelButton from '../common/labelButton';
 import { getURLParameter } from '../common/utils';
 import { createConnectionStatusDisplay, monitorConnectionStream } from '../common/connectionStatus';
 import { State } from 'phaser';
@@ -113,6 +112,7 @@ class Main extends State {
       const playCommand = (hand) => {
           sendCommand(play(gameId, userBe, hand));
       };
+      
       const onPlayRock = () => playCommand('rock');
       const onPlayPaper = () => playCommand('paper');
       const onPlayScissors = () => playCommand('scissors');
