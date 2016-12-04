@@ -1,4 +1,4 @@
-const uuid = require('node-uuid');
+const uuid = require('uuid');
 
 const startGame = (io, socket, games) => socket.on('startGame', function(data) {
     if (!data) {
