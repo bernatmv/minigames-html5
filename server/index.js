@@ -14,6 +14,8 @@ if (process.env.NODE_ENV === 'production') {
         host: 'redis',
         port: 6379
     }));
+    const compression = require('compression');
+    app.use(compression());
 }
 
 console.log('listening to port 9999');

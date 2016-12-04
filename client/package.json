@@ -5,7 +5,7 @@
   "description": "Node + babel + Rx + phaser + ramda + socket.io",
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server",
-    "build": "node_modules/.bin/webpack -p --progress --profile --optimize-minimize --optimize-occurence-order --optimize-dedupe",
+    "build": "node_modules/.bin/webpack webpack.config.prod.js -p --progress --profile --optimize-minimize --optimize-occurence-order --optimize-dedupe",
     "build-babel": "./node_modules/.bin/babel -d ./dist ./src"
   },
   "main": "dist/index.js",
