@@ -1,7 +1,6 @@
 import { State } from 'Phaser';
 import Loading from './loading';
 import Main from './main';
-import Play from './play';
 import Properties from '../config/properties';
 import {
     gradients, addGradient
@@ -14,7 +13,6 @@ class Boot extends State {
     		this.game.stage.disableVisibilityChange = true;
             this.game.state.add('loading', Loading);
             this.game.state.add('main', Main);
-            this.game.state.add('play', Play);
     }
 
     create() {
