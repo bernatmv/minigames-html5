@@ -16,6 +16,8 @@ class Main extends State {
   create() {
     this.gameId = null;
     this.user = null;
+    this.round = null;
+    this.isOwner = null;
     this.initialize();
   }
 
@@ -27,7 +29,6 @@ class Main extends State {
       .initializeConnectionImages()
       .initializeConnectionStream()
       .initializeEventStream()
-      .createHandsButtons()
       .startGame();
   }
 
@@ -46,10 +47,10 @@ class Main extends State {
     companyLogo.anchor.x = .5;
     companyLogo.anchor.y = .5;
     // text
-    const title = this.game.add.text(this.game.world.centerX, this.game.world.centerY, 'Janken!', style);
-    title.anchor.x = .5;
-    title.anchor.y = .5;
-    const blinkingTitle = blinkTween(this.game, title);
+    this.marquee = this.game.add.text(this.game.world.centerX, this.game.world.centerY, 'Janken!', style);
+    this.marquee.anchor.x = .5;
+    this.marquee.anchor.y = .5;
+    const blinkingMarquee = blinkTween(this.game, this.marquee);
     return this;
   }
 
@@ -62,9 +63,11 @@ class Main extends State {
     const join = getURLParameter('join');
     if (join) {
       this.user = userBe;
+      this.isOwner = false;
       sendCommand(joinGame(join, userBe, fbidBe));
     } else {
       this.user = userAb;
+      this.isOwner = true;
       sendCommand(startGame(userAb, fbidAb));
     }
     return this;
@@ -81,9 +84,15 @@ class Main extends State {
             // todo show meesage waiting for player
             break;
           case 'gameJoined':
-            this.gameId = e.data.gameId;
+            // TODO: display other player
             console.log('joined', e);
-            // todo show start game
+            this.gameId = e.data.gameId;
+            // TODO: show start game
+            break;
+          case 'roundStarted':
+            console.log('round started', e);
+            this.round = e.data.round;
+            this.createHandsButtons();
             break;
           default:
             console.log('missing handler for event', e);
@@ -106,15 +115,22 @@ class Main extends State {
   createHandsButtons() {
       const {sendCommand} = this.game.api;
       const playCommand = (hand) => {
-          sendCommand(play(this.gameId, this.user, hand));
+          sendCommand(play(this.gameId, this.round, this.user, this.isOwner, hand));
       };
       
       const onPlayRock = () => playCommand('rock');
       const onPlayPaper = () => playCommand('paper');
       const onPlayScissors = () => playCommand('scissors');
-      this.game.stage.addChild(new Button(this.game, this.game.world.centerX - 100, Properties.screen.resolution.height - 100, 'box-blue', 'ROCK', Properties.text.style.title, onPlayRock, this));
-      this.game.stage.addChild(new Button(this.game, this.game.world.centerX, Properties.screen.resolution.height - 100, 'box-blue', 'PAPER', Properties.text.style.title, onPlayPaper, this));
-      this.game.stage.addChild(new Button(this.game, this.game.world.centerX + 100, Properties.screen.resolution.height - 100, 'box-blue', 'SCISSORS', Properties.text.style.title, onPlayScissors, this));
+      const scale = 0.4; // TODO: re-scale assets and remove
+      const rockButton = new Button(this.game, this.game.world.centerX, Properties.screen.resolution.height - 250, 'icon-rock', null, null, onPlayRock, this);
+      rockButton.scale.setTo(scale, scale);
+      this.game.stage.addChild(rockButton);
+      const paperButton = new Button(this.game, this.game.world.centerX -100, Properties.screen.resolution.height - 100, 'icon-paper', null, null, onPlayPaper, this)
+      paperButton.scale.setTo(scale, scale);
+      this.game.stage.addChild(paperButton);
+      const scissorsButton = new Button(this.game, this.game.world.centerX + 100, Properties.screen.resolution.height - 100, 'icon-scissors', null, null, onPlayScissors, this)
+      scissorsButton.scale.setTo(scale, scale);
+      this.game.stage.addChild(scissorsButton);
       return this;
   }
 };

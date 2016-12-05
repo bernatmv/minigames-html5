@@ -2,8 +2,12 @@ const { startRound } = require ('./round');
 
 const joinGame = (io, socket, games) => socket.on('joinGame', function(data) {
     const game = games[data.gameId];
+    console.log('==============================');
     console.log('join', game, data);
+    console.log('==============================');
     if (!game || game.guest) {
+        console.log('Game missing or already with a guest');
+        // TODO: if it's the same guest rejoin the play
         io.to(socket.id).emit('gameJoined', {
             gameId: 'gameId',
             status: false

@@ -15,11 +15,13 @@ export const startGame = (name, id) => ({
     }
 });
 
-export const play = (gameId, id, hand) => ({
+export const play = (gameId, round, id, isOwner, hand) => ({
     type: 'play',
     payload: {
         gameId,
+        round: round,
         fbid: id,
+        isOwner: isOwner,
         hand
     }
 });

@@ -30,9 +30,12 @@ class Loading extends Phaser.State {
         const preloadBar = this.game.add.text(this.game.width / 2, (this.game.height / 2) + 50, '0%', style);
         preloadBar.anchor.setTo(0.5, 0.5);
         // load images
-        this.game.load.image("rock", require("../../assets/hands/rock.png"));
-        this.game.load.image("paper", require("../../assets/hands/paper.png"));
-        this.game.load.image("scissors", require("../../assets/hands/scissors.png"));
+        this.game.load.image("hand-rock", require("../../assets/hands/rock.png"));
+        this.game.load.image("hand-paper", require("../../assets/hands/paper.png"));
+        this.game.load.image("hand-scissors", require("../../assets/hands/scissors.png"));
+        this.game.load.image("icon-rock", require("../../assets/icons/rock.png"));
+        this.game.load.image("icon-paper", require("../../assets/icons/paper.png"));
+        this.game.load.image("icon-scissors", require("../../assets/icons/scissors.png"));
         this.game.load.image("connection", require("../../assets/icons/connection_status.png"));
         //this.game.load.atlas("buttons", require("../../assets/buttons/circle/sprites.png"), null, buttonsJSON, Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
         this.game.load.image("box-blue", require("../../assets/buttons/square/BoxBlue.png"));

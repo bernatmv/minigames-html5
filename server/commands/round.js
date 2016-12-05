@@ -1,6 +1,10 @@
+const GAME_DRAW = 'draw';
+const GUEST_WIN = 'guest';
+const OWNER_WIN = 'owner';
 
 const startRound = (io, game) => {
     setTimeout(() => {
+        console.log('start round')
         game.round = game.round ? game.round + 1 : 1;
         const roundInfo = {
             gameId: game.id,
@@ -13,14 +17,14 @@ const startRound = (io, game) => {
             .emit('roundStarted', roundInfo);
         io.to(game.owner.socketId)
             .emit('roundStarted', roundInfo);
+        // the round will end in 5 seconds if any user hasn't yet answered'
         setTimeout(() => endRound(io, game, game.round), 5000);
     }, 500);
 }
 
 const nextRound = (io, game) => {
-    // todo finish with one player have enought wins.
     setTimeout(()=>{
-        console.log('ss', startRound)
+        console.log('next round')
         startRound(io, game);
     }, 750);
 };
@@ -42,17 +46,17 @@ const endRound = (io, game, round) => {
     game.round = game.round + 1;
     game.rounds[round].finished = true;
     const winner = getWinner(guestHand, ownerHand);
-    let whoWins = 'draw';
+    let whoWins = GAME_DRAW;
     if (winner === 0) {
-        game.rounds[round].winner = 'draw';
+        game.rounds[round].winner = GAME_DRAW;
     } else if (winner < 0) {
         game.guest.wins = game.guest.wins + 1;
-        game.rounds[round].winner = 'guest';
-        whoWins = 'guest';
+        game.rounds[round].winner = GUEST_WIN;
+        whoWins = GUEST_WIN;
     } else {
         game.owner.wins = game.owner.wins + 1;
-        game.rounds[round].winner = 'owner';
-        whoWins = 'owner';
+        game.rounds[round].winner = OWNER_WIN;
+        whoWins = OWNER_WIN;
     }
     io.to(game.owner.socketId)
         .emit('roundFinished', {
@@ -66,7 +70,10 @@ const endRound = (io, game, round) => {
             round,
             winner: whoWins
         });
-    nextRound(io, game);
+    if (game.rounds.filter((round) => round.winner === GUEST_WIN).length < 1
+        || game.rounds.filter((round) => round.winner === OWNER_WIN).length < 1) {
+        nextRound(io, game);
+    }
 }
 
 const getWinner = (ownerHand, guestHand) => {

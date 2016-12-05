@@ -19,10 +19,12 @@ export default class Button extends Phaser.Button {
 			this.mouseIsOver = false;
 		}, this);
 
-        this.label = new Phaser.Text(game, 0, 0, label, labelStyle);
-        this.label.anchor.setTo(0.5, 0.5);
-        this.addChild(this.label);
-        this.setLabel(label);
+		if (label !== null) {
+			this.label = new Phaser.Text(game, 0, 0, label, labelStyle);
+			this.label.anchor.setTo(0.5, 0.5);
+			this.addChild(this.label);
+			this.setLabel(label);
+		}
 	}
 
     setLabel(label) {
