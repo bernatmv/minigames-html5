@@ -24,7 +24,10 @@ const play = (io, socket, games) => socket.on('play', function(data) {
     }
     // owner already play
     // TODO: allow to change chosen option before time expires
-    if (data.isOwner === true && game.rounds[data.round] && game.rounds[data.round].ownerHand) {
+    if (data.fbid === game.owner.id 
+        && game.rounds[data.round]
+        && game.rounds[data.round].owner 
+        && game.rounds[data.round].owner.hand) {
         console.log('Owner already played!');
         io.to(socket.id)
             .emit('play', {
@@ -35,7 +38,10 @@ const play = (io, socket, games) => socket.on('play', function(data) {
     }
     // guest already play
     // TODO: allow to change chosen option before time expires
-    if (data.isOwner === false && game.rounds[data.round] && game.rounds[data.round].guestHand) {
+    if (data.fbid === game.guest.id 
+        && game.rounds[data.round] 
+        && game.rounds[data.round].guest 
+        && game.rounds[data.round].guest.hand) {
         console.log('Guest already played!');
         io.to(socket.id)
             .emit('play', {
@@ -44,13 +50,19 @@ const play = (io, socket, games) => socket.on('play', function(data) {
             });
         return;
     }
-    if (data.isOwner === false) {
+
+    if (data.fbid === game.guest.id) {
         game.rounds[data.round].guestHand = data.hand;
+        io.to(game.owner.socketId)
+            .emit('opponentPlay', {gameId: 'gameId'});
     }
-    if (data.isOwner === true) {
+    if (data.fbid === game.owner.id) {
         game.rounds[data.round].ownerHand = data.hand;
+        io.to(game.guest.socketId)
+            .emit('opponentPlay', {gameId: 'gameId'});
     }
-    if (game.rounds[data.round].guestHand && game.rounds[data.round].ownerHand) {
+    if (game.rounds[data.round].guestHand
+        && game.rounds[data.round].ownerHand) {
         endRound(io, game, game.rounds[data.round]);
     }
 

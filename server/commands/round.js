@@ -17,20 +17,18 @@ const startRound = (io, game) => {
             .emit('roundStarted', roundInfo);
         io.to(game.owner.socketId)
             .emit('roundStarted', roundInfo);
-        // the round will end in 5 seconds if any user hasn't yet answered'
-        setTimeout(() => endRound(io, game, game.round), 5000);
     }, 500);
 }
 
 const nextRound = (io, game) => {
-    setTimeout(()=>{
-        console.log('next round')
-        startRound(io, game);
-    }, 750);
+    console.log('next round')
+    startRound(io, game);
 };
 
 const endRound = (io, game, round) => {
-    if (game.rounds[round].finished) {
+    if (game.rounds[round].finished
+        || !game.rounds[round].owner
+        || !game.rounds[round].guest) {
         // try to finish a round already finished.
         return;
     }
@@ -44,6 +42,7 @@ const endRound = (io, game, round) => {
     }
 
     game.round = game.round + 1;
+    console.log('ROUND = ', game.round);
     game.rounds[round].finished = true;
     const winner = getWinner(guestHand, ownerHand);
     let whoWins = GAME_DRAW;
@@ -52,27 +51,43 @@ const endRound = (io, game, round) => {
     } else if (winner < 0) {
         game.guest.wins = game.guest.wins + 1;
         game.rounds[round].winner = GUEST_WIN;
-        whoWins = GUEST_WIN;
+        whoWins = game.guest.id;
     } else {
         game.owner.wins = game.owner.wins + 1;
         game.rounds[round].winner = OWNER_WIN;
-        whoWins = OWNER_WIN;
+        whoWins = game.owner.id;
     }
     io.to(game.owner.socketId)
         .emit('roundFinished', {
             gameId: game.id,
-            round,
-            winner: whoWins
+            round: round,
+            winner: whoWins,
+            ownHand: ownerHand,
+            otherHand: guestHand
         });
     io.to(game.guest.socketId)
         .emit('roundFinished', {
             gameId: game.id,
-            round,
-            winner: whoWins
+            round: round,
+            winner: whoWins,
+            ownHand: guestHand,
+            otherHand: ownerHand
         });
     if (game.rounds.filter((round) => round.winner === GUEST_WIN).length < 1
         || game.rounds.filter((round) => round.winner === OWNER_WIN).length < 1) {
         nextRound(io, game);
+    }
+    else {
+        io.to(game.owner.socketId)
+            .emit('gameFinished', {
+                gameId: game.id,
+                winner: (game.rounds.filter((round) => round.winner === OWNER_WIN).length >= 1) ? game.owner.id : game.guest.id 
+            });
+        io.to(game.guest.socketId)
+            .emit('gameFinished', {
+                gameId: game.id,
+                winner: (game.rounds.filter((round) => round.winner === OWNER_WIN).length >= 1) ? game.owner.id : game.guest.id 
+            });
     }
 }
 
