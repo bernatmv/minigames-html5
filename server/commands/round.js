@@ -26,6 +26,8 @@ const nextRound = (io, game) => {
 };
 
 const endRound = (io, game, round) => {
+    console.log(game);
+    console.log(round);
     if (game.rounds[round].finished
         || !game.rounds[round].owner
         || !game.rounds[round].guest) {
@@ -41,8 +43,6 @@ const endRound = (io, game, round) => {
         ownerHand = randomHand(random);
     }
 
-    game.round = game.round + 1;
-    console.log('ROUND = ', game.round);
     game.rounds[round].finished = true;
     const winner = getWinner(guestHand, ownerHand);
     let whoWins = GAME_DRAW;

@@ -78,6 +78,7 @@ class Main extends State {
     const { eventStream } = this.game.api;
     eventStream
       .subscribe(e => {
+        console.log(e.type);
         switch (e.type) {
           case 'gameStarted':
             this.gameId = e.data.gameId;

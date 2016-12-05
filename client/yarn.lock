@@ -4386,9 +4386,9 @@ sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
-script-loader@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/script-loader/-/script-loader-0.6.1.tgz#183c6103945aaf5134b46f03003b5ee2bad44ceb"
+script-loader@0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/script-loader/-/script-loader-0.7.0.tgz#685dc7e7069e0dee7a92674f0ebc5b0f55baa5ec"
   dependencies:
     raw-loader "~0.5.1"
 
