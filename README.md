@@ -1,6 +1,6 @@
 ## Features
 
-Node + babel + Rx + phaser + ramda + socket.io
+Node + babel + Rx + phaser + socket.io
 
 ## Docker
 cd /server
