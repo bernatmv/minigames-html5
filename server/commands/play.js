@@ -63,7 +63,7 @@ const play = (io, socket, games) => socket.on('play', function(data) {
     }
     if (game.rounds[data.round].guestHand
         && game.rounds[data.round].ownerHand) {
-        endRound(io, game, game.rounds[data.round]);
+        endRound(io, game, data.round);
     }
 
 });
