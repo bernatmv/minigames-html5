@@ -14,6 +14,8 @@ class Main extends State {
   }
 
   create() {
+    this.gameId = null;
+    this.user = null;
     this.initialize();
   }
 
@@ -22,10 +24,10 @@ class Main extends State {
     this.game.renderer.renderSession.roundPixels = true;
     return this
       .initializeStage()
-      .fakeGame()
       .initializeConnectionImages()
       .initializeConnectionStream()
       .initializeEventStream()
+      .createHandsButtons()
       .startGame();
   }
 
@@ -59,21 +61,12 @@ class Main extends State {
     const { sendCommand } = this.game.api;
     const join = getURLParameter('join');
     if (join) {
+      this.user = userBe;
       sendCommand(joinGame(join, userBe, fbidBe));
     } else {
+      this.user = userAb;
       sendCommand(startGame(userAb, fbidAb));
     }
-    return this;
-  }
-
-  fakeGame() {
-    const {
-      sendCommand
-    } = this.game.api;
-    const onPlay = () => {
-      sendCommand(play(gameId, userBe, 'paper'));
-    };
-    this.game.add.button(this.game.world.centerX - 95, 300, 'rock', onPlay, this, 2, 1, 0);
     return this;
   }
 
@@ -83,10 +76,12 @@ class Main extends State {
       .subscribe(e => {
         switch (e.type) {
           case 'gameStarted':
+            this.gameId = e.data.gameId;
             console.log(`http://localhost:8080/webpack-dev-server/?join=${e.data.gameId}`);
             // todo show meesage waiting for player
             break;
           case 'gameJoined':
+            this.gameId = e.data.gameId;
             console.log('joined', e);
             // todo show start game
             break;
@@ -109,16 +104,18 @@ class Main extends State {
   }
 
   createHandsButtons() {
+      const {sendCommand} = this.game.api;
       const playCommand = (hand) => {
-          sendCommand(play(gameId, userBe, hand));
+          sendCommand(play(this.gameId, this.user, hand));
       };
       
       const onPlayRock = () => playCommand('rock');
       const onPlayPaper = () => playCommand('paper');
       const onPlayScissors = () => playCommand('scissors');
-      this.game.add.button(this.game.world.centerX - 100, Properties.screen.resolution.height - 100, 'playRock', onPlayRock, this);
-      this.game.add.button(this.game.world.centerX, Properties.screen.resolution.height - 100, 'playPaper', onPlayPaper, this);
-      this.game.add.button(this.game.world.centerX + 100, Properties.screen.resolution.height - 100, 'playScissors', onPlayScissors, this);
+      this.game.stage.addChild(new Button(this.game, this.game.world.centerX - 100, Properties.screen.resolution.height - 100, 'box-blue', 'ROCK', Properties.text.style.title, onPlayRock, this));
+      this.game.stage.addChild(new Button(this.game, this.game.world.centerX, Properties.screen.resolution.height - 100, 'box-blue', 'PAPER', Properties.text.style.title, onPlayPaper, this));
+      this.game.stage.addChild(new Button(this.game, this.game.world.centerX + 100, Properties.screen.resolution.height - 100, 'box-blue', 'SCISSORS', Properties.text.style.title, onPlayScissors, this));
+      return this;
   }
 };
 
