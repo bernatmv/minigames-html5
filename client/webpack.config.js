@@ -16,7 +16,11 @@ var entries = {
 };
 
 var plugins = [
-//	new webpack.optimize.CommonsChunkPlugin('vendor', 'libs/phaser.min.js')
+    new webpack.DefinePlugin({
+         'process.env': {
+           SERVER: `"http://localhost:9999"`
+         }
+       })
 ];
 
 if (fs.existsSync('./src/index.js')) {

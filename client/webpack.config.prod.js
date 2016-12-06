@@ -16,11 +16,12 @@ var entries = {
 };
 
 var plugins = [
-  new webpack.DefinePlugin({
-    'process.env': {
-      'NODE_ENV': JSON.stringify('production')
-    }
-    }),
+    new webpack.DefinePlugin({
+         'process.env': {
+           SERVER: `"//jankengame-pro.eu-west-1.elasticbeanstalk.com/"`,
+           NODE_ENV: JSON.stringify('production')
+         }
+       }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
         debug: false,
@@ -34,10 +35,6 @@ var plugins = [
         },
         minimize: true,
         sourceMap: false
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false
     }),
     new webpack.optimize.AggressiveMergingPlugin()
 ];
