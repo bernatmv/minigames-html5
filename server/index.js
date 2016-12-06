@@ -37,5 +37,5 @@ io.on('connection', function(socket) {
     console.log('connected');
     startGame(io, socket, games);
     joinGame(io, socket, games);
-    play(io, socket,games);
+    play(io, socket, games);
 });

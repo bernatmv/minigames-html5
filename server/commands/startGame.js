@@ -9,7 +9,7 @@ const startGame = (io, socket, games) => socket.on('startGame', function(data) {
     const gameId = uuid.v1();
     const game = {
         id: gameId,
-        numberOfWins: data.numberOfWins || 2,
+        numberOfWins: data.rounds || 3,
         owner: {
             id: data.fbid,
             socketId: socket.id,
@@ -20,7 +20,7 @@ const startGame = (io, socket, games) => socket.on('startGame', function(data) {
     games[gameId] = game;
     io.to(socket.id).emit('gameStarted', {
         gameId,
-        rounds: game.numberOfRounds
+        rounds: game.numberOfWins
     });
 });
 module.exports = startGame;
