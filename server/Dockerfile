@@ -22,5 +22,5 @@ RUN npm install
 COPY . /usr/src/app
 COPY ./public /usr/src/app/public
 
-EXPOSE 9000
+EXPOSE 9999
 CMD [ "npm", "start" ]
