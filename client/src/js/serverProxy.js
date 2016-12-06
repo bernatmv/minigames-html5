@@ -21,6 +21,7 @@ const eventStream = (socket) => {
     socket.on('roundStarted', data => source.onNext({type: 'roundStarted', data}));
     socket.on('gameFinished', data => source.onNext({type: 'gameFinished', data}));
     socket.on('roundFinished', data => source.onNext({type: 'roundFinished', data}));
+    socket.on('opponentPlay', data => source.onNext({type: 'opponentPlay', data}));
     socket.on('intervalChanged', data => source.onNext({type: 'intervalChanged', data})); //debugging
     return source;
 };

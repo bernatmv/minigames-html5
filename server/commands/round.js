@@ -26,14 +26,7 @@ const nextRound = (io, game) => {
 };
 
 const endRound = (io, game, round) => {
-    console.log(game);
-    console.log(round);
-    if (game.rounds[round].finished
-        || !game.rounds[round].owner
-        || !game.rounds[round].guest) {
-        // try to finish a round already finished.
-        return;
-    }
+    console.log('endRound');
     let guestHand = game.rounds[round].guestHand;
     if (!guestHand) {
         guestHand = randomHand(random);
@@ -73,20 +66,19 @@ const endRound = (io, game, round) => {
             ownHand: guestHand,
             otherHand: ownerHand
         });
-    if (game.rounds.filter((round) => round.winner === GUEST_WIN).length < 1
-        || game.rounds.filter((round) => round.winner === OWNER_WIN).length < 1) {
+    if (game.owner.wins < game.numberOfWins && game.guest.wins < game.numberOfWins) {
         nextRound(io, game);
     }
     else {
         io.to(game.owner.socketId)
             .emit('gameFinished', {
                 gameId: game.id,
-                winner: (game.rounds.filter((round) => round.winner === OWNER_WIN).length >= 1) ? game.owner.id : game.guest.id 
+                winner: game.owner.wins === game.numberOfWins ? game.owner.id : game.guest.id
             });
         io.to(game.guest.socketId)
             .emit('gameFinished', {
                 gameId: game.id,
-                winner: (game.rounds.filter((round) => round.winner === OWNER_WIN).length >= 1) ? game.owner.id : game.guest.id 
+                winner: game.owner.wins === game.numberOfWins ? game.owner.id : game.guest.id
             });
     }
 }
