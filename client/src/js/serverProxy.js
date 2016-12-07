@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { Subject } from 'rx-lite';
 
-export const getSocket = (url = 'http://localhost:9999') => io.connect(url);
+export const getSocket = (url = process.env.SERVER) => io.connect(url);
 
 const connectionStream = (socket) =>{
     const source = new Subject();
