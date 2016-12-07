@@ -9,7 +9,7 @@ const startGame = (io, socket, games) => socket.on('startGame', function(data) {
     const gameId = uuid.v1();
     const game = {
         id: gameId,
-        numberOfWins: data.rounds || 3,
+        numberOfWins: data.rounds || 2, // 2 victories = the best of 3
         owner: {
             id: data.fbid,
             socketId: socket.id,

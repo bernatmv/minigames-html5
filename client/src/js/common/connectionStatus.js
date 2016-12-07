@@ -4,6 +4,7 @@ import { blinkTween } from '../common/animations';
 export function createConnectionStatusDisplay(game) {
     const connectionImage = game.add.sprite(Properties.screen.resolution.width - 50, 50, 'connection');
     connectionImage.visible = false;
+    connectionImage.scale.setTo(0.5, 0.5);
     connectionImage.anchor.x = 0.5;
     connectionImage.anchor.y = 0.5;
     const connectionTween = blinkTween(game, connectionImage);
