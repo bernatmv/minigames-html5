@@ -6,34 +6,6 @@ export const gradients =
     [   // Honey Dew
         { position: 0, color: "#43C6AC" },
         { position: 1, color: "#F8FFAE" }
-    ],
-    [   // Blue Lagoon
-        { position: 0, color: "#43C6AC" },
-        { position: 1, color: "#191654" }
-    ],
-    [   // Dawn
-        { position: 0, color: "#F3904F" },
-        { position: 1, color: "#3B4371" }
-    ],
-    [   // Purple White
-        { position: 0, color: "#BA5370" },
-        { position: 1, color: "#F4E2D8" }
-    ],
-    [   // Inbox
-        { position: 0, color: "#457fca" },
-        { position: 1, color: "#5691c8" }
-    ],
-    [   // Master Card
-        { position: 0, color: "#f46b45" },
-        { position: 1, color: "#eea849" }
-    ],
-    [   // Mystic
-        { position: 0, color: "#757F9A" },
-        { position: 1, color: "#D7DDE8" }
-    ],
-    [   // Mild
-        { position: 0, color: "#67B26F" },
-        { position: 1, color: "#4ca2cd" }
     ]
 ];
 

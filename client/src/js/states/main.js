@@ -3,7 +3,7 @@ import { getURLParameter } from '../common/utils';
 import { createConnectionStatusDisplay, monitorConnectionStream } from '../common/connectionStatus';
 import { State } from 'phaser';
 import { startGame, play, joinGame } from '../actions';
-import { blinkTween } from '../common/animations';
+import { blinkTween, beatTween } from '../common/animations';
 import { gradients, addGradient } from '../common/background';
 import Button from '../common/button';
 
@@ -78,50 +78,34 @@ class Main extends State {
     const { eventStream } = this.game.api;
     eventStream
       .subscribe(e => {
-        console.log(e.type);
         switch (e.type) {
           case 'gameStarted':
             this.gameId = e.data.gameId;
             console.log(`http://localhost:8080/webpack-dev-server/?join=${e.data.gameId}`);
             break;
           case 'gameJoined':
-            console.log('joined');
-            console.log(e);
+            console.log('joined', e);
             this.gameId = e.data.gameId;
             this.gameReady(e.data);
             break;
           case 'roundStarted':
-            console.log('round started');
-            console.log(e);
+            console.log('round started', e);
             this.round = e.data.round;
             this.createHandsButtons();
             break;
           case 'opponentPlay':
-            console.log('opponent played');
-            console.log(e);
+            console.log('opponent played', e);
             this.setRightColumnHand('unknown');
             break;
           case 'roundFinished':
-            console.log('round finished');
-            console.log(e);
+            console.log('round finished', e);
             this.setRightColumnHand(e.data.otherHand, true);
             this.setRoundWinner(e.data.winner);
             this.round = e.data.round;
-            if (e.data.winner === 'draw') {
-              console.log('DRAW!');
-            } else if (e.data.winner === this.user) {
-              console.log('YOU WIN!');
-            } else {
-              console.log('YOU LOSE!');
-            }
             break;
           case 'gameFinished':
             console.log('game finished', e);
-            if (e.data.winner === this.user) {
-              console.log('YOU WIN THE GAME!');
-            } else {
-              console.log('YOU LOSE THE GAME!');
-            }
+            this.setWinLoseMessage(e.data.winner);
             break;
           default:
             console.log('missing handler for event', e);
@@ -149,26 +133,13 @@ class Main extends State {
     this.winner.anchor.y = .5;
     if (game.ownerId === this.user) {
       this.marquee.text = 'Playing with ' + game.guestId;
-      this.blinkingMarquee.stop();
     }
     else {
       this.marquee.text = 'Playing with ' + game.ownerId;
-      this.blinkingMarquee.stop();
     }
-  }
-
-  setRoundWinner(winner) {
-    const color = (winner === 'draw') ? '#FFE02D' : ((winner === this.user) ? '#37CF57' : '#E82C0C');
-    const text = (winner === 'draw') ? 'Draw' : ((winner === this.user) ? 'You win!' : 'You lose');
-    const styleNormal = {
-      fill: color,
-      font: "22px Cocon-Bold",
-      stroke: "#fff",
-      strokeThickness: 4
-    };
-    const winnerText = this.game.add.text(this.game.world.centerX, 25 + (this.round * 80), text, styleNormal);
-    winnerText.anchor.x = .5;
-    winnerText.anchor.y = .5;
+    this.marquee.addColor('#fe8c00', 13);
+    this.marquee.alpha = 1;
+    this.blinkingMarquee.stop();
   }
 
   initializeConnectionImages() {
@@ -218,6 +189,20 @@ class Main extends State {
     this.scissorsButton.destroy();
   }
 
+  setRoundWinner(winner) {
+    const color = (winner === 'draw') ? '#FFE02D' : ((winner === this.user) ? '#37CF57' : '#E82C0C');
+    const text = (winner === 'draw') ? 'Draw' : ((winner === this.user) ? 'You win!' : 'You lose');
+    const styleNormal = {
+      fill: color,
+      font: "22px Cocon-Bold",
+      stroke: "#fff",
+      strokeThickness: 4
+    };
+    const winnerText = this.game.add.text(this.game.world.centerX, 40 + (this.round * 80), text, styleNormal);
+    winnerText.anchor.x = .5;
+    winnerText.anchor.y = .5;
+  }
+
   setLeftColumnHand(hand) {
     if (this.leftColumnHand) {
       //this.leftColumnHand.destroy();
@@ -233,6 +218,22 @@ class Main extends State {
     this.rightColumnHand = this.game.add.sprite(Properties.screen.resolution.width - 5, -5 + (this.round * 80), 'icon-' + hand, this);
     this.rightColumnHand.scale.setTo(0.3, 0.3);
     this.rightColumnHand.anchor.x = 1;
+  }
+
+  setWinLoseMessage(winner) {
+    const styleBig = {
+      font: "60px Cocon-Bold",
+      stroke: "#000",
+      strokeThickness: 5
+    };
+    const finalText = this.game.add.text(this.game.world.centerX, Properties.screen.resolution.height - 200, (winner === this.user) ? `YOU WIN` : `YOU LOSE`, styleBig);
+    finalText.anchor.set(0.5, 0.5);
+
+    var grd = finalText.context.createLinearGradient(0, 0, 0, finalText.height);
+    grd.addColorStop(0, (winner === this.user) ? '#DCE35B' : '#fe8c00');
+    grd.addColorStop(1, (winner === this.user) ? '#45B649' : '#f83600');
+    finalText.fill = grd;
+    beatTween(this.game, finalText);
   }
 };
 
