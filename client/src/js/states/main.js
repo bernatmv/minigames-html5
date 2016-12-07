@@ -43,9 +43,9 @@ class Main extends State {
     // font style
     const styleBig = {
       fill: "#fff",
-      font: "32px Cocon-Bold",
+      font: "28px Cocon-Bold",
       stroke: "#000",
-      strokeThickness: 7
+      strokeThickness: 5
     };
     // background
     addGradient(this.game, Properties.screen.backgroundGradient);
@@ -85,21 +85,27 @@ class Main extends State {
             console.log(`http://localhost:8080/webpack-dev-server/?join=${e.data.gameId}`);
             break;
           case 'gameJoined':
-            console.log('joined', e);
+            console.log('joined');
+            console.log(e);
             this.gameId = e.data.gameId;
             this.gameReady(e.data);
             break;
           case 'roundStarted':
-            console.log('round started', e);
+            console.log('round started');
+            console.log(e);
             this.round = e.data.round;
             this.createHandsButtons();
             break;
           case 'opponentPlay':
-            console.log('opponent played', e);
-            this.setRightColumnHand();
+            console.log('opponent played');
+            console.log(e);
+            this.setRightColumnHand('unknown');
             break;
           case 'roundFinished':
-            console.log('round finished', e);
+            console.log('round finished');
+            console.log(e);
+            this.setRightColumnHand(e.data.otherHand, true);
+            this.setRoundWinner(e.data.winner);
             this.round = e.data.round;
             if (e.data.winner === 'draw') {
               console.log('DRAW!');
@@ -108,7 +114,7 @@ class Main extends State {
             } else {
               console.log('YOU LOSE!');
             }
-            break;            
+            break;
           case 'gameFinished':
             console.log('game finished', e);
             if (e.data.winner === this.user) {
@@ -116,7 +122,7 @@ class Main extends State {
             } else {
               console.log('YOU LOSE THE GAME!');
             }
-            break;            
+            break;
           default:
             console.log('missing handler for event', e);
         }
@@ -142,13 +148,27 @@ class Main extends State {
     this.winner.anchor.x = .5;
     this.winner.anchor.y = .5;
     if (game.ownerId === this.user) {
-      this.marquee.text = game.ownerId + ' vs ' + game.guestId;
+      this.marquee.text = 'Playing with ' + game.guestId;
       this.blinkingMarquee.stop();
     }
     else {
-      this.marquee.text = game.guestId + ' vs ' + game.ownerId;
+      this.marquee.text = 'Playing with ' + game.ownerId;
       this.blinkingMarquee.stop();
     }
+  }
+
+  setRoundWinner(winner) {
+    const color = (winner === 'draw') ? '#FFE02D' : ((winner === this.user) ? '#37CF57' : '#E82C0C');
+    const text = (winner === 'draw') ? 'Draw' : ((winner === this.user) ? 'You win!' : 'You lose');
+    const styleNormal = {
+      fill: color,
+      font: "22px Cocon-Bold",
+      stroke: "#fff",
+      strokeThickness: 4
+    };
+    const winnerText = this.game.add.text(this.game.world.centerX, 25 + (this.round * 80), text, styleNormal);
+    winnerText.anchor.x = .5;
+    winnerText.anchor.y = .5;
   }
 
   initializeConnectionImages() {
@@ -169,18 +189,18 @@ class Main extends State {
         this.setLeftColumnHand(hand);
         sendCommand(play(this.gameId, this.round, this.user, hand));
       };
-      
+
       const onPlayRock = () => playCommand('rock');
       const onPlayPaper = () => playCommand('paper');
       const onPlayScissors = () => playCommand('scissors');
       const scale = 0.4; // TODO: re-scale assets and remove
-      this.rockButton = new Button(this.game, this.game.world.centerX, Properties.screen.resolution.height - 250, 'icon-rock', null, null, onPlayRock, this);
+      this.rockButton = new Button(this.game, this.game.world.centerX - 126, Properties.screen.resolution.height - 100, 'button-rock', null, null, onPlayRock, this);
       this.rockButton.scale.setTo(scale, scale);
       this.game.stage.addChild(this.rockButton);
-      this.paperButton = new Button(this.game, this.game.world.centerX -100, Properties.screen.resolution.height - 100, 'icon-paper', null, null, onPlayPaper, this)
+      this.paperButton = new Button(this.game, this.game.world.centerX, Properties.screen.resolution.height - 100, 'button-paper', null, null, onPlayPaper, this)
       this.paperButton.scale.setTo(scale, scale);
       this.game.stage.addChild(this.paperButton);
-      this.scissorsButton = new Button(this.game, this.game.world.centerX + 100, Properties.screen.resolution.height - 100, 'icon-scissors', null, null, onPlayScissors, this)
+      this.scissorsButton = new Button(this.game, this.game.world.centerX + 126, Properties.screen.resolution.height - 100, 'button-scissors', null, null, onPlayScissors, this)
       this.scissorsButton.scale.setTo(scale, scale);
       this.game.stage.addChild(this.scissorsButton);
       return this;
@@ -200,20 +220,19 @@ class Main extends State {
 
   setLeftColumnHand(hand) {
     if (this.leftColumnHand) {
-      this.leftColumnHand.destroy();
+      //this.leftColumnHand.destroy();
     }
-    this.leftColumnHand = this.game.add.sprite(5, 75, 'icon-' + hand, this);
-    this.leftColumnHand.scale.setTo(0.25, 0.25);
+    this.leftColumnHand = this.game.add.sprite(5, -5 + (this.round * 80), 'icon-' + hand, this);
+    this.leftColumnHand.scale.setTo(0.3, 0.3);
   }
 
-  setRightColumnHand() {
-    if (this.rightColumnHand) {
+  setRightColumnHand(hand, update = false) {
+    if (this.rightColumnHand && update) {
       this.rightColumnHand.destroy();
     }
-    this.rightColumnHand = this.game.add.sprite(Properties.screen.resolution.width - 5, 75, 'icon-spock', this);
-    this.rightColumnHand.scale.setTo(0.25, 0.25);
+    this.rightColumnHand = this.game.add.sprite(Properties.screen.resolution.width - 5, -5 + (this.round * 80), 'icon-' + hand, this);
+    this.rightColumnHand.scale.setTo(0.3, 0.3);
     this.rightColumnHand.anchor.x = 1;
-    this.rightColumnHand.anchor.y = .5;
   }
 };
 

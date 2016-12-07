@@ -1,14 +1,8 @@
 import random from './random';
 import Properties from '../config/properties';
 
-export const gradients = 
+export const gradients =
 [
-    [   // TEST
-        { position: 0, color: "#ffffff" },
-        { position: 500/600, color: "#0a68b0" },
-        { position: 500/600, color: "#0a68b0" },
-        { position: 1, color: "#000000" }
-    ],
     [   // Honey Dew
         { position: 0, color: "#43C6AC" },
         { position: 1, color: "#F8FFAE" }
@@ -29,10 +23,6 @@ export const gradients =
         { position: 0, color: "#457fca" },
         { position: 1, color: "#5691c8" }
     ],
-    [   // Little Leaf
-        { position: 0, color: "#76b852" },
-        { position: 1, color: "#8DC26F" }
-    ],
     [   // Master Card
         { position: 0, color: "#f46b45" },
         { position: 1, color: "#eea849" }
@@ -48,17 +38,17 @@ export const gradients =
 ];
 
 export function getRandomGradient() {
-    return gradients[random(0, gradients.length - 1)]; 
+    return gradients[random(0, gradients.length - 1)];
 }
 
 export function addGradient(
-    game, 
+    game,
     gradient = null,
-    orientation = 'vertical', 
-    width = Properties.screen.resolution.width, 
-    height = Properties.screen.resolution.height 
+    orientation = 'vertical',
+    width = Properties.screen.resolution.width,
+    height = Properties.screen.resolution.height
 ) {
-    const bgGradient = gradient || gradients[random(0, gradients.length - 1)]; 
+    const bgGradient = gradient || gradients[random(0, gradients.length - 1)];
     const coordinates = (orientation === 'vertical') ? [0,0,0,height] : [0,0,width,0];
 
     const myBitmap = game.add.bitmapData(width, height);
