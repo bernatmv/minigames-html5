@@ -1,10 +1,8 @@
 const { startRound } = require ('./round');
 
-const joinGame = (io, socket, games) => socket.on('joinGame', function(data) {
-    const game = games[data.gameId];
-    console.log('==============================');
-    console.log('join', game, data);
-    console.log('==============================');
+const joinGame = (io, socket, games) => socket.on('joinGame', async function(data) {
+    const game = await await games.get(data.gameId);
+    console.log('join');
     if (!game || game.guest) {
         console.log('Game missing or already with a guest');
         // TODO: if it's the same guest rejoin the play
@@ -25,8 +23,9 @@ const joinGame = (io, socket, games) => socket.on('joinGame', function(data) {
         guestId: data.fbid,
         ownerId: game.owner.id
     };
+    games.set(data.gameId, game);
     io.to(game.guest.socketId).emit('gameJoined', gameJoinedInfo);
     io.to(game.owner.socketId).emit('gameJoined', gameJoinedInfo);
-    startRound(io, game);
+    startRound(io, games, data.gameId);
 });
 module.exports = joinGame;

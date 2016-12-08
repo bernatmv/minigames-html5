@@ -2,9 +2,10 @@ const GAME_DRAW = 'draw';
 const GUEST_WIN = 'guest';
 const OWNER_WIN = 'owner';
 
-const startRound = (io, game) => {
-    setTimeout(() => {
-        console.log('start round')
+const startRound = (io, games, gameId) => {
+    setTimeout(async () => {
+        console.log('start round');
+        const game = await games.get(gameId);
         game.round = game.round ? game.round + 1 : 1;
         const roundInfo = {
             gameId: game.id,
@@ -13,6 +14,7 @@ const startRound = (io, game) => {
         game.rounds[game.round] = {
             finished: false
         };
+        await games.set(gameId, game);
         io.to(game.guest.socketId)
             .emit('roundStarted', roundInfo);
         io.to(game.owner.socketId)
@@ -20,13 +22,14 @@ const startRound = (io, game) => {
     }, 500);
 }
 
-const nextRound = (io, game) => {
+const nextRound = (io, games, gameId) => {
     console.log('next round')
-    startRound(io, game);
+    startRound(io, games, gameId);
 };
 
-const endRound = (io, game, round) => {
+const endRound = async (io, games, gameId, round) => {
     console.log('endRound');
+    const game = await games.get(gameId);
     let guestHand = game.rounds[round].guestHand;
     if (!guestHand) {
         guestHand = randomHand(random);
@@ -66,8 +69,9 @@ const endRound = (io, game, round) => {
             ownHand: guestHand,
             otherHand: ownerHand
         });
+    await games.set(gameId, game);
     if (game.owner.wins < game.numberOfWins && game.guest.wins < game.numberOfWins) {
-        nextRound(io, game);
+        nextRound(io, games, gameId);
     }
     else {
         io.to(game.owner.socketId)

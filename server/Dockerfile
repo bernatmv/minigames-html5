@@ -2,7 +2,7 @@
 # docker build -t jaken/server .
 # aws
 # aws ecr get-login --region eu-west-1
-# docker build -t jankengame/server .
+# docker build -t jankengame/server --no-cache .
 # docker images
 # GET IMAGE ID
 # docker tag jankengame/server 318806095243.dkr.ecr.eu-west-1.amazonaws.com/jankengame/server
@@ -19,8 +19,10 @@ COPY package.json /usr/src/app/
 RUN npm install
 
 # Bundle app source
-COPY . /usr/src/app
+COPY ./src /usr/src/app/src
+COPY ./.babelrc /usr/src/app
 COPY ./public /usr/src/app/public
+RUN npm run build
 
 EXPOSE 9999
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "serve" ]

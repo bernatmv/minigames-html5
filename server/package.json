@@ -4,16 +4,32 @@
   "description": "",
   "main": "node index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./index.js"
+    "start": "nodemon src/index.js --exec babel-node --presets es2015,stage-0",
+    "build": "babel src -d dist",
+    "serve": "node dist/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.4.6",
     "compression": "^1.6.2",
     "express": "^4.14.0",
+    "redis": "^2.6.3",
+    "redis-commands": "^1.3.0",
     "socket.io": "^1.6.0",
     "socket.io-redis": "^2.0.0",
+    "then-redis": "^2.0.1",
     "uuid": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
+    "babel-plugin-transform-regenerator": "^6.16.1",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-register": "^6.18.0",
+    "nodemon": "^1.11.0"
   }
 }

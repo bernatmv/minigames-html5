@@ -1,7 +1,7 @@
 const { endRound } = require ('./round');
 
-const play = (io, socket, games) => socket.on('play', function(data) {
-    const game = games[data.gameId];
+const play = (io, socket, games) => socket.on('play', async function(data) {
+    const game = await games.get(data.gameId);
     // no gameId
     if (!game) {
         console.log('NO GAME on play!');
@@ -60,9 +60,11 @@ const play = (io, socket, games) => socket.on('play', function(data) {
         io.to(game.guest.socketId)
             .emit('opponentPlay', {gameId: game.id});
     }
+    await games.set(data.gameId, game);
     if (game.rounds[data.round].guestHand
         && game.rounds[data.round].ownerHand) {
-        endRound(io, game, data.round);
+        endRound(io, games, data.gameId, data.round);
     }
+
 });
 module.exports = play;
