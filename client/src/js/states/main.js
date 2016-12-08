@@ -24,6 +24,8 @@ class Main extends State {
     this.scissorButton = null;
     this.leftColumnHand = null;
     this.rightColumnHand = null;
+    this.companyLogo = null;
+    this.playsGroup = null;
     // start
     this.initialize();
   }
@@ -49,11 +51,22 @@ class Main extends State {
     };
     // background
     addGradient(this.game, Properties.screen.backgroundGradient);
+    // logo
+    this.companyLogo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY - 200, "companyLogo", this);
+    this.companyLogo.anchor.x = .5;
+    this.companyLogo.anchor.y = .5;
     // text
-    this.marquee = this.game.add.text(this.game.world.centerX, 0, 'Awaiting opponent...', styleBig);
+    this.marquee = this.game.add.text(this.game.world.centerX, this.game.world.centerY, 'Awaiting opponent...', styleBig);
     this.marquee.anchor.x = .5;
     this.marquee.anchor.y = 0;
     this.blinkingMarquee = blinkTween(this.game, this.marquee);
+    // groups
+    this.playsGroup = this.game.add.group();
+    const maskGraphics = this.game.add.graphics(0,0);
+    maskGraphics.beginFill(200, 100, 0 , 0);
+    maskGraphics.drawRect(0, 75, Properties.screen.resolution.width, 400);
+    maskGraphics.endFill();
+    this.playsGroup.mask = maskGraphics;
     return this;
   }
 
@@ -131,12 +144,14 @@ class Main extends State {
     this.winner = this.game.add.text(this.game.world.centerX, yOffset, 'Winner', styleNormal);
     this.winner.anchor.x = .5;
     this.winner.anchor.y = .5;
+    this.companyLogo.destroy();
     if (game.ownerId === this.user) {
       this.marquee.text = 'Playing with ' + game.guestId;
     }
     else {
       this.marquee.text = 'Playing with ' + game.ownerId;
     }
+    this.marquee.y = 0;
     this.marquee.addColor('#fe8c00', 13);
     this.marquee.alpha = 1;
     this.blinkingMarquee.stop();
@@ -201,6 +216,10 @@ class Main extends State {
     const winnerText = this.game.add.text(this.game.world.centerX, 40 + (this.round * 80), text, styleNormal);
     winnerText.anchor.x = .5;
     winnerText.anchor.y = .5;
+    this.playsGroup.add(winnerText);
+    if (this.round > 4) {
+      this.playsGroup.y -= 80;
+    }
   }
 
   setLeftColumnHand(hand) {
@@ -209,6 +228,7 @@ class Main extends State {
     }
     this.leftColumnHand = this.game.add.sprite(5, -5 + (this.round * 80), 'icon-' + hand, this);
     this.leftColumnHand.scale.setTo(0.3, 0.3);
+    this.playsGroup.add(this.leftColumnHand);
   }
 
   setRightColumnHand(hand, update = false) {
@@ -218,6 +238,7 @@ class Main extends State {
     this.rightColumnHand = this.game.add.sprite(Properties.screen.resolution.width - 5, -5 + (this.round * 80), 'icon-' + hand, this);
     this.rightColumnHand.scale.setTo(0.3, 0.3);
     this.rightColumnHand.anchor.x = 1;
+    this.playsGroup.add(this.rightColumnHand);
   }
 
   setWinLoseMessage(winner) {
