@@ -94,7 +94,7 @@ class Main extends State {
         switch (e.type) {
           case 'gameStarted':
             this.gameId = e.data.gameId;
-            console.log(`http://localhost:8080/webpack-dev-server/?join=${e.data.gameId}`);
+            console.log(`?join=${e.data.gameId}`);
             break;
           case 'gameJoined':
             console.log('joined', e);

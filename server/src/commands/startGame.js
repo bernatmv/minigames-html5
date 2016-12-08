@@ -17,7 +17,7 @@ const startGame = (io, socket, games) => socket.on('startGame', function(data) {
         },
         rounds: {}
     };
-    games[gameId] = game;
+    games.set(gameId, game);
     io.to(socket.id).emit('gameStarted', {
         gameId,
         rounds: game.numberOfWins
