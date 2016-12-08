@@ -25,7 +25,12 @@ if (process.env.NODE_ENV === 'production') {
     bluebird.promisifyAll(redis.RedisClient.prototype);
     bluebird.promisifyAll(redis.Multi.prototype);
     const client = redis.createClient(redisConnection);
-    games.set = (key, obj) => client.setAsync(key, JSON.stringify(obj));
+    games.set = (key, obj) => {
+         const promise = client.setAsync(key, JSON.stringify(obj));
+         // expire in 10 min
+         client.expire(key, 60* 10);
+         return promise;
+    };
     games.get = async key => Promise.resolve(JSON.parse(await client.getAsync(key)));
 
 } else {
