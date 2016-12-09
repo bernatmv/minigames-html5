@@ -45,14 +45,14 @@ class Main extends State {
     // font style
     const styleBig = {
       fill: "#fff",
-      font: "28px Cocon-Bold",
+      font: "42px Cocon-Bold",
       stroke: "#000",
-      strokeThickness: 5
+      strokeThickness: 8
     };
     // background
     addGradient(this.game, Properties.screen.backgroundGradient);
     // logo
-    this.companyLogo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY - 200, "companyLogo", this);
+    this.companyLogo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY - 400, "companyLogo", this);
     this.companyLogo.anchor.x = .5;
     this.companyLogo.anchor.y = .5;
     // text
@@ -64,7 +64,7 @@ class Main extends State {
     this.playsGroup = this.game.add.group();
     const maskGraphics = this.game.add.graphics(0,0);
     maskGraphics.beginFill(200, 100, 0 , 0);
-    maskGraphics.drawRect(0, 75, Properties.screen.resolution.width, 400);
+    maskGraphics.drawRect(0, 150, Properties.screen.resolution.width, 800);
     maskGraphics.endFill();
     this.playsGroup.mask = maskGraphics;
     return this;
@@ -95,6 +95,8 @@ class Main extends State {
           case 'gameStarted':
             this.gameId = e.data.gameId;
             console.log(`?join=${e.data.gameId}`);
+            console.log(`http://localhost:8080/?join=${e.data.gameId}`);
+            console.log(`http://localhost:8080/webpack-dev-server/?join=${e.data.gameId}`);
             break;
           case 'gameJoined':
             console.log('joined', e);
@@ -130,15 +132,15 @@ class Main extends State {
   gameReady(game) {
     const styleNormal = {
       fill: "#fff",
-      font: "16px Cocon-Bold",
+      font: "28px Cocon-Bold",
       stroke: "#000",
-      strokeThickness: 3
+      strokeThickness: 6
     };
-    const yOffset = 60;
-    this.yourPlay = this.game.add.text(5, yOffset, 'Your play', styleNormal);
+    const yOffset = 120;
+    this.yourPlay = this.game.add.text(10, yOffset, 'Your play', styleNormal);
     this.yourPlay.anchor.x = 0;
     this.yourPlay.anchor.y = .5;
-    this.opponentPlay = this.game.add.text(Properties.screen.resolution.width - 5, yOffset, 'Opponent play', styleNormal);
+    this.opponentPlay = this.game.add.text(Properties.screen.resolution.width - 10, yOffset, 'Opponent play', styleNormal);
     this.opponentPlay.anchor.x = 1;
     this.opponentPlay.anchor.y = .5;
     this.winner = this.game.add.text(this.game.world.centerX, yOffset, 'Winner', styleNormal);
@@ -179,14 +181,14 @@ class Main extends State {
       const onPlayRock = () => playCommand('rock');
       const onPlayPaper = () => playCommand('paper');
       const onPlayScissors = () => playCommand('scissors');
-      const scale = 0.4; // TODO: re-scale assets and remove
-      this.rockButton = new Button(this.game, this.game.world.centerX - 126, Properties.screen.resolution.height - 100, 'button-rock', null, null, onPlayRock, this);
+      const scale = .9;
+      this.rockButton = new Button(this.game, this.game.world.centerX - 255, Properties.screen.resolution.height - 200, 'icon-rock', null, null, onPlayRock, this);
       this.rockButton.scale.setTo(scale, scale);
       this.game.stage.addChild(this.rockButton);
-      this.paperButton = new Button(this.game, this.game.world.centerX, Properties.screen.resolution.height - 100, 'button-paper', null, null, onPlayPaper, this)
+      this.paperButton = new Button(this.game, this.game.world.centerX, Properties.screen.resolution.height - 200, 'icon-paper', null, null, onPlayPaper, this)
       this.paperButton.scale.setTo(scale, scale);
       this.game.stage.addChild(this.paperButton);
-      this.scissorsButton = new Button(this.game, this.game.world.centerX + 126, Properties.screen.resolution.height - 100, 'button-scissors', null, null, onPlayScissors, this)
+      this.scissorsButton = new Button(this.game, this.game.world.centerX + 255, Properties.screen.resolution.height - 200, 'icon-scissors', null, null, onPlayScissors, this)
       this.scissorsButton.scale.setTo(scale, scale);
       this.game.stage.addChild(this.scissorsButton);
       return this;
@@ -207,18 +209,28 @@ class Main extends State {
   setRoundWinner(winner) {
     const color = (winner === 'draw') ? '#FFE02D' : ((winner === this.user) ? '#37CF57' : '#E82C0C');
     const text = (winner === 'draw') ? 'Draw' : ((winner === this.user) ? 'You win!' : 'You lose');
-    const styleNormal = {
-      fill: color,
-      font: "22px Cocon-Bold",
-      stroke: "#fff",
+    const styleSmall = {
+      fill: "#fff",
+      font: "28px Cocon-Bold",
+      stroke: "#000",
       strokeThickness: 4
     };
-    const winnerText = this.game.add.text(this.game.world.centerX, 40 + (this.round * 80), text, styleNormal);
+    const styleNormal = {
+      fill: color,
+      font: "48px Cocon-Bold",
+      stroke: "#fff",
+      strokeThickness: 8
+    };
+    const roundText = this.game.add.text(this.game.world.centerX, 40 + (this.round * 160), 'Round ' + this.round, styleSmall);
+    roundText.anchor.x = .5;
+    roundText.anchor.y = .5;
+    this.playsGroup.add(roundText);
+    const winnerText = this.game.add.text(this.game.world.centerX, 85 + (this.round * 160), text, styleNormal);
     winnerText.anchor.x = .5;
     winnerText.anchor.y = .5;
     this.playsGroup.add(winnerText);
     if (this.round > 4) {
-      this.playsGroup.y -= 80;
+      this.playsGroup.y -= 160;
     }
   }
 
@@ -226,8 +238,8 @@ class Main extends State {
     if (this.leftColumnHand) {
       //this.leftColumnHand.destroy();
     }
-    this.leftColumnHand = this.game.add.sprite(5, -5 + (this.round * 80), 'icon-' + hand, this);
-    this.leftColumnHand.scale.setTo(0.3, 0.3);
+    this.leftColumnHand = this.game.add.sprite(10, -10 + (this.round * 160), 'icon-' + hand, this);
+    this.leftColumnHand.scale.setTo(0.6, 0.6);
     this.playsGroup.add(this.leftColumnHand);
   }
 
@@ -235,19 +247,19 @@ class Main extends State {
     if (this.rightColumnHand && update) {
       this.rightColumnHand.destroy();
     }
-    this.rightColumnHand = this.game.add.sprite(Properties.screen.resolution.width - 5, -5 + (this.round * 80), 'icon-' + hand, this);
-    this.rightColumnHand.scale.setTo(0.3, 0.3);
+    this.rightColumnHand = this.game.add.sprite(Properties.screen.resolution.width - 10, -10 + (this.round * 160), 'icon-' + hand, this);
+    this.rightColumnHand.scale.setTo(0.6, 0.6);
     this.rightColumnHand.anchor.x = 1;
     this.playsGroup.add(this.rightColumnHand);
   }
 
   setWinLoseMessage(winner) {
     const styleBig = {
-      font: "60px Cocon-Bold",
+      font: "120px Cocon-Bold",
       stroke: "#000",
-      strokeThickness: 5
+      strokeThickness: 10
     };
-    const finalText = this.game.add.text(this.game.world.centerX, Properties.screen.resolution.height - 200, (winner === this.user) ? `YOU WIN` : `YOU LOSE`, styleBig);
+    const finalText = this.game.add.text(this.game.world.centerX, Properties.screen.resolution.height - 400, (winner === this.user) ? `YOU WIN` : `YOU LOSE`, styleBig);
     finalText.anchor.set(0.5, 0.5);
 
     var grd = finalText.context.createLinearGradient(0, 0, 0, finalText.height);
