@@ -1,4 +1,8 @@
 {
-  "presets": ["es2015", "stage-0"],
+  "presets": ["es2015", "stage-0", ["env", {
+      "targets": {
+        "node": "current"
+      }
+    }]],
   "plugins": ["syntax-async-functions","transform-regenerator"]
 }

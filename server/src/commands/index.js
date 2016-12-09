@@ -3,7 +3,7 @@ const joinGame = require('./joinGame');
 const play = require('./play');
 
 module.exports = {
-    startGame,
-    joinGame,
-    play
+  startGame,
+  joinGame,
+  play,
 };
