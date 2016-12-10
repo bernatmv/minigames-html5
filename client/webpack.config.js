@@ -18,7 +18,8 @@ var entries = {
 var plugins = [
     new webpack.DefinePlugin({
          'process.env': {
-           SERVER: `"http://localhost:9999"`
+           SERVER: `"http://localhost:9999"`,
+           NODE_ENV: JSON.stringify('development')
          }
        })
 ];
